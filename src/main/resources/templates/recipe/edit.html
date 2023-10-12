@@ -40,11 +40,20 @@
                            th:value="${ingredient.quantity}" size="3">
                     <select th:field="*{editForm.ingredients[__${iter.index}__].measurement}">
                         <option value="unit">unit</option>
-                        <option value="tsp.">tsp.</option>
-                        <option value="tbsp.">tbsp.</option>
-                        <option value="cup">cup(s)</option>
-                        <option value="drop">drop(s)</option>
-                        <option value="dash">dash(s)</option>
+                        <option value="whole">whole</option>
+                            <!--Volumetric Measurements-->
+                        <option value="tsp">tsp.</option>
+                        <option value="tbsp">tbsp.</option>
+                        <option value="fl. oz">fl. oz</option>
+                        <option value="cup">c.</option>
+                        <option value="pt">pt.</option>
+                        <option value="qt">qt.</option>
+                        <option value="gal">gal.</option>
+                            <!--Mass Measurements-->
+                        <option value="g">g.</option>
+                        <option value="kg">kg.</option>
+                        <option value="oz">oz.</option>
+                        <option value="lb">lbs.</option>
                     </select>
                     <p class="error" th:errors="*{editForm.ingredients[__${iter.index}__].name}"></p>
                     <p class="error" th:errors="*{editForm.ingredients[__${iter.index}__].quantity}"></p>

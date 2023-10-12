@@ -42,29 +42,64 @@ let ingredientCount = initIngContainer.children.length
         measurementUnit.appendChild(defaultOption);
 
         let option1 = document.createElement("option");
-        option1.text = "tsp.";
-        option1.value = "tsp.";
+        option1.text = "whole";
+        option1.value = "whole";
         measurementUnit.appendChild(option1);
 
         let option2 = document.createElement("option");
-        option2.text = "tbsp.";
-        option2.value = "tbsp.";
+        option2.text = "tsp.";
+        option2.value = "tsp";
         measurementUnit.appendChild(option2);
 
         let option3 = document.createElement("option");
-        option3.text = "cup(s)";
-        option3.value = "cup";
+        option3.text = "tbsp.";
+        option3.value = "tbsp";
         measurementUnit.appendChild(option3);
 
         let option4 = document.createElement("option");
-        option4.text = "drop(s)";
-        option4.value = "drop";
+        option4.text = "fl. oz";
+        option4.value = "fl. oz";
         measurementUnit.appendChild(option4);
 
         let option5 = document.createElement("option");
-        option5.text = "dash(s)";
-        option5.value = "dash";
+        option5.text = "c.";
+        option5.value = "cup";
         measurementUnit.appendChild(option5);
+
+        let option6 = document.createElement("option");
+        option6.text = "pt.";
+        option6.value = "pt";
+        measurementUnit.appendChild(option6);
+
+        let option7 = document.createElement("option");
+        option7.text = "qt.";
+        option7.value = "qt";
+        measurementUnit.appendChild(option7);
+
+        let option8 = document.createElement("option");
+        option8.text = "gal.";
+        option8.value = "gal";
+        measurementUnit.appendChild(option8);
+
+        let option9 = document.createElement("option");
+        option9.text = "g.";
+        option9.value = "g";
+        measurementUnit.appendChild(option9);
+
+        let option10 = document.createElement("option");
+        option10.text = "kg.";
+        option10.value = "kg";
+        measurementUnit.appendChild(option10);
+
+        let option11 = document.createElement("option");
+        option11.text = "oz.";
+        option11.value = "oz";
+        measurementUnit.appendChild(option11);
+
+        let option12 = document.createElement("option");
+        option12.text = "lbs.";
+        option12.value = "lb";
+        measurementUnit.appendChild(option12);
 
         ingSpan.appendChild(measurementUnit);
 

@@ -77,22 +77,55 @@ public class Ingredient extends AbstractEntity{
 
     public Ingredient convertMeasurement(){
 
-        //converts drops/dashes into tsp. approx. 100 drops go into 1 tsp.
-        if (this.measurement.equals("drop") || this.measurement.equals("dash") && this.quantity > 50){
-            this.quantity = this.quantity / 100;
-            this.measurement = "tsp.";
-        }
+        //Volume-----------------------------------------------------------
 
         //converts tsp to tbsp
-        if (this.measurement.equals("tsp.") && this.quantity > 3){
+        if (this.measurement.equals("tsp") && this.quantity >= 3){
             this.quantity = this.quantity / 3;
-            this.measurement =  "tbsp.";
+            this.measurement =  "tbsp";
         }
 
         //converts tbsp to cups
-        if (this.measurement.equals("tbsp.") && this.quantity > 8){
+        if (this.measurement.equals("tbsp") && this.quantity >= 8){
             this.quantity = this.quantity / 16;
             this.measurement = "cup";
+        }
+
+        //converts fluid ounces to cups
+        if (this.measurement.equals("fl. oz") && this.quantity >= 8){
+            this.quantity = this.quantity / 8;
+            this.measurement = "cup";
+        }
+
+        //converts cup to pint
+        if (this.measurement.equals("cup") && this.quantity >= 4){
+            this.quantity = this.quantity / 2;
+            this.measurement = "pt";
+        }
+
+        //converts pint to quart
+        if (this.measurement.equals("pt") && this.quantity >= 2){
+            this.quantity = this.quantity / 2;
+            this.measurement = "qt";
+        }
+
+        //converts quart to gallon
+        if (this.measurement.equals("qt") && this.quantity >= 4){
+            this.quantity = this.quantity / 4;
+            this.measurement = "gal";
+        }
+
+        //Mass ---------------------------------------------------------
+
+        //converts ounces to grams
+        if (this.measurement.equals("oz") && this.quantity >= 16){
+            this.quantity = this.quantity / 16;
+            this.measurement = "lb";
+        }
+
+        if (this.measurement.equals("g") && this.quantity >= 1000){
+            this.quantity = this.quantity / 1000;
+            this.measurement = "kg";
         }
 
         this.quantity = (Math.round(this.quantity*100.00)) / 100.00;
