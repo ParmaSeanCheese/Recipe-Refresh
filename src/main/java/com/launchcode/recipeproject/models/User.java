@@ -2,10 +2,7 @@ package com.launchcode.recipeproject.models;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +29,9 @@ public class User extends AbstractEntity{
 
     @ManyToMany(mappedBy = "menuUsers")
     private final List<Recipe> menuRecipes = new ArrayList<>();
+
+    @OneToOne(mappedBy = "groceryUser")
+    private GroceryList groceryList;
 
     public User(){}
 
@@ -108,5 +108,13 @@ public class User extends AbstractEntity{
     public void addFavorite(Favorite favorite){
         this.favorites.add(favorite);
     }
+
+    public GroceryList getGroceryList() {
+        return groceryList;
     }
+
+    public void setGroceryList(GroceryList groceryList) {
+        this.groceryList = groceryList;
+    }
+}
 

@@ -1,9 +1,6 @@
 package com.launchcode.recipeproject.models;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,16 +8,19 @@ import java.util.List;
 public class GroceryList extends AbstractEntity{
 
     @OneToOne
-    private User user;
+    private User groceryUser;
 
-    private List<Ingredient> shoppingCart = new ArrayList<>();
+    private ArrayList<Ingredient> shoppingCart = new ArrayList<>();
 
-    public GroceryList(User user) {
-        this.user = user;
+    public GroceryList(User groceryUser) {
+        this.groceryUser = groceryUser;
     }
 
-    public User getUser() {
-        return user;
+    public GroceryList() {
+    }
+
+    public User getGroceryUser() {
+        return groceryUser;
     }
 
     public List<Ingredient> getShoppingCart() {
@@ -28,12 +28,21 @@ public class GroceryList extends AbstractEntity{
     }
 
     public void addToShoppingCart(Ingredient newIngredient){
+
+        //Checks each ingredient already in the shoppingCart Array to see if the ingredient getting added already exists,
+        //and if it does, it then checks that both ingredients are the same type of measurement (mass[imperial/metric] or volume).
+        //If both ingredients are of the same measurement type, the quantities are added together and the method is returned.
+        //if the loop gets through the whole shopping cart without finding a match, it simply adds it at the end.
+
         for (Ingredient ingredient : this.shoppingCart){
             if (ingredient.getName().toLowerCase().equals( newIngredient.getName().toLowerCase() )){
-                ingredient.standardizeMeasurement();
-                newIngredient.standardizeMeasurement();
-                if (ingredient.getMeasurement().equals(newIngredient.getMeasurement())){
-                    ingredient.setQuantity(ingredient.getQuantity() + newIngredient.getQuantity() );
+
+                Ingredient existingIng = ingredient.standardizeMeasurement();
+                Ingredient ingToBeAdded = newIngredient.standardizeMeasurement();
+
+                if (existingIng.getMeasurement().equals(ingToBeAdded.getMeasurement())){
+                    ingredient.setQuantity(existingIng.getQuantity() + ingToBeAdded.getQuantity() );
+                    ingredient.convertMeasurement();
                     return;
                 }
             }
