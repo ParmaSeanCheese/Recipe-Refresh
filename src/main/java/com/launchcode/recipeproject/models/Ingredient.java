@@ -133,6 +133,54 @@ public class Ingredient extends AbstractEntity{
         return this;
     }
 
+    public Ingredient standardizeMeasurement(){
+
+        //volume----------------------------------------------
+        if (this.measurement.equals("gal")){
+            this.quantity = this.quantity * 768;
+            this.measurement = "tsp";
+        }
+
+        if (this.measurement.equals("qt")){
+            this.quantity = this.quantity * 192;
+            this.measurement = "tsp";
+        }
+
+        if (this.measurement.equals("pt")){
+            this.quantity = this.quantity * 96;
+            this.measurement = "tsp";
+        }
+
+        if (this.measurement.equals("cup")){
+            this.quantity = this.quantity * 48;
+            this.measurement = "tsp";
+        }
+
+        if (this.measurement.equals("fl. oz")){
+            this.quantity = this.quantity * 6;
+            this.measurement = "tsp";
+        }
+
+        if (this.measurement.equals("tbsp")){
+            this.quantity = this.quantity * 3;
+            this.measurement = "tsp";
+        }
+
+        //Mass -----------------------------------------------------
+
+        if (this.measurement.equals("kg")){
+            this.quantity = this.quantity * 1000;
+            this.measurement = "g";
+        }
+
+        if (this.measurement.equals("lb")){
+            this.quantity = this.quantity * 16;
+            this.measurement = "oz";
+        }
+
+        return this;
+    }
+
     @Override
     public String toString() {
         return name;

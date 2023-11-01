@@ -31,9 +31,9 @@
             <tr th:each="favorite : ${favorites}">
                 <td>
                     <p th:value="${favorite.recipe}">
-                    <a th:href="@{'/recipe/view/' + ${favorite.recipe.getId()}}"><h3 th:text="${favorite.recipe.name}">Recipe Title</h3></a>
-
+<!--                        <a th:href="@{'/recipe/view/' + ${favorite.recipe.getId()}}"th:text="${favorite.recipe.name}"></a>-->
                     </p>
+
                 </td>
             </tr>
         </table>
