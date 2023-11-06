@@ -22,16 +22,14 @@ public class User extends AbstractEntity{
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // static so all classes can use
 
-
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private final List<Favorite> favorites = new ArrayList<>();
-
     @OneToMany
     private final List<Recipe> recipes = new ArrayList<>();
 
     @ManyToMany(mappedBy = "menuUsers")
     private final List<Recipe> menuRecipes = new ArrayList<>();
+
+    @ManyToMany
+    private final List<Recipe> favoriteList = new ArrayList<>();
 
     public User(){}
 
@@ -46,8 +44,8 @@ public class User extends AbstractEntity{
         return passwordEncoder.matches(password,passwordHash); // can't use .equals because of salting
     }
 
-    public List<Favorite> getFavorites() {
-        return favorites;
+    public List<Recipe> getFavoriteList() {
+        return favoriteList;
     }
 
     public void setPassword(String password) {
@@ -94,6 +92,12 @@ public class User extends AbstractEntity{
 
     public void removeMenuRecipe(Recipe recipe) { this.menuRecipes.remove(recipe);}
 
+    public void addFavorite(Recipe recipe){
+        this.favoriteList.add(recipe);
+    }
+
+    public void removeFavoriteRecipe(Recipe recipe) { this.favoriteList.remove(recipe);}
+
     public List<Recipe> getMenuRecipes() {
         return menuRecipes;
     }
@@ -105,8 +109,6 @@ public class User extends AbstractEntity{
                 ", roles='" + roles + '\'' +
                 '}';
     }
-    public void addFavorite(Favorite favorite){
-        this.favorites.add(favorite);
-    }
-    }
+
+}
 
