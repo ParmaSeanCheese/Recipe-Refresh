@@ -209,6 +209,68 @@ public class RecipeController {
 
     }
 
+    @PostMapping("view/{recipeId}/addFavItem")
+    public String addFavItem(Model model, Principal principal, @PathVariable int recipeId) {
+        User user = controllerServices.getUser(principal);
+
+        if (user == null) {
+            model.addAttribute("title", "login");
+            return "/login";
+        }
+
+        Optional optRecipe = recipeRepository.findById(recipeId);
+
+        if (optRecipe.isPresent()) {
+            Recipe recipe = (Recipe) optRecipe.get();
+            if (!user.getFavoriteList().contains(recipe)) {
+                recipe.addFavoriteUsers(user);
+                user.addFavorite(recipe);
+                userRepository.save(user);
+                recipeRepository.save(recipe);
+                model.addAttribute("message", "Recipe added to Favorites");
+            } else {
+                model.addAttribute("message", "Recipe is already in Favorites");
+            }
+            model.addAttribute("title", recipe.getName() + " - Recipe Refresh");
+            model.addAttribute("recipe", recipe);
+            model.addAttribute("tags", tagRepository.findAll());
+            model.addAttribute("user", controllerServices.getUser(principal));
+
+            return "recipe/view";
+
+        } else {
+            model.addAttribute("title", "Recipe does not exist");
+            return "recipe/notFound";
+        }
+    }
+
+    @PostMapping("view/{recipeId}/removeFavItem")
+    public String removeFavItem(Model model, Principal principal, @PathVariable int recipeId) {
+        User user = controllerServices.getUser(principal);
+
+        if (user == null) {
+            model.addAttribute("title", "login");
+            return "/login";
+        }
+
+        Optional optRecipe = recipeRepository.findById(recipeId);
+
+        if (optRecipe.isPresent()) {
+            Recipe recipe = (Recipe) optRecipe.get();
+            user.removeFavoriteRecipe(recipe);
+            recipe.removeFavoriteUser(user);
+            userRepository.save(user);
+            recipeRepository.save(recipe);
+            model.addAttribute("recipe", recipe);
+            model.addAttribute("favoriteRecipes", user.getFavoriteList());
+            return "/profile/favorites";
+        } else {
+            model.addAttribute("title", "Recipe does not exist");
+            return "recipe/notFound";
+        }
+
+    }
+
     //Editing Controllers ------------------------------------------------------
 
     @GetMapping("edit/{recipeId}")
