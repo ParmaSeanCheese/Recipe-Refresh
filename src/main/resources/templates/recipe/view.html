@@ -12,6 +12,8 @@
 <br>
 
 <div class="recipe-container">
+    <div th:if="${message}" th:text="${message}" class="message"></div>
+    <br>
         <img class="recipe-image" th:src="@{${recipe.imagePath}}">
         <h3 th:text="${recipe.name}">Recipe title</h3>
         <label>Serves:
@@ -44,10 +46,13 @@
     <br>
 
     <a>
+        <form method="post" th:action="@{'/recipe/view/' + ${recipe.getId()} + '/addFavItem'}">
+            <button type="submit" class="btn btn-secondary btn-sm">Add to Favorites</button>
+        </form>
+        <br>
         <form method="post" th:action="@{'/recipe/view/' + ${recipe.getId()} + '/addMenuItem'}">
             <button type="submit" class="btn btn-secondary btn-sm">Add to Menu</button>
         </form>
-        <div th:if="${message}" th:text="${message}" class="message"></div>
     </a>
     <br>
     <div>

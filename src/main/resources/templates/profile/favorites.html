@@ -8,17 +8,17 @@
     <div th:replace="fragments :: sidebar"></div>
 </header>
 <div class="mainBody">
-    <h1 id="myMenuTitle" class="text-center display-6 p-3">My Menu</h1>
+    <h1 id="myFavTitle" class="text-center display-6 p-3">My Favorites</h1>
     <div class="container">
         <div class="row">
-            <div class="col-md-4" th:each="recipe : ${menuRecipes}">
+            <div class="col-md-4" th:each="recipe : ${favoriteRecipes}">
                 <div>
                     <img class="myRecipeImg rounded" th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}"/>
                     <a class="img-link" th:href="@{'/recipe/view/' + ${recipe.getId()}}"><h3 class="h5" th:text="${recipe.name}">Recipe Title</h3></a>
                     <br>
                     <a>
-                        <form method="post" th:action="@{'/recipe/view/' + ${recipe.getId()} + '/removeMenuItem'}">
-                            <button type="submit" class="btn btn-secondary btn-sm">Remove from Menu</button>
+                        <form method="post" th:action="@{'/recipe/view/' + ${recipe.getId()} + '/removeFavItem'}">
+                            <button type="submit" class="btn btn-secondary btn-sm">Remove from Favorites</button>
                         </form>
                     </a>
                 </div>
@@ -26,6 +26,7 @@
         </div>
     </div>
 </div>
+
 <br>
 <br>
 </body>
