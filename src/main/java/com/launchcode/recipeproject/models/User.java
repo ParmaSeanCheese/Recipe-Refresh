@@ -2,7 +2,9 @@ package com.launchcode.recipeproject.models;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +30,8 @@ public class User extends AbstractEntity{
     @ManyToMany
     private final List<Recipe> favoriteList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "groceryUser")
-    private GroceryList groceryList;
+    private ArrayList<Ingredient> groceryList = new ArrayList<>();
+
 
     public User(){}
 
@@ -102,20 +104,46 @@ public class User extends AbstractEntity{
         return menuRecipes;
     }
 
-    public GroceryList getGroceryList() {
-        return groceryList;
-    }
-
-    public void setGroceryList(GroceryList groceryList) {
-        this.groceryList = groceryList;
-    }
-
-    @Override
+       @Override
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
                 ", roles='" + roles + '\'' +
                 '}';
+    }
+
+    //Grocery List Methods ------------------------------------------------------
+
+
+    public List<Ingredient> getGroceryList() {
+        return groceryList;
+    }
+
+    public void setGroceryList(ArrayList<Ingredient> groceryList) {
+        this.groceryList = groceryList;
+    }
+
+    public void addToGroceryList(Ingredient newIngredient){
+
+        //Checks each ingredient already in the shoppingCart Array to see if the ingredient getting added already exists,
+        //and if it does, it then checks that both ingredients are the same type of measurement (mass[imperial/metric] or volume).
+        //If both ingredients are of the same measurement type, the quantities are added together and the method is returned.
+        //if the loop gets through the whole shopping cart without finding a match, it simply adds it at the end.
+
+        for (Ingredient existingIngredient : this.groceryList){
+            if (existingIngredient.getName().toLowerCase().equals( newIngredient.getName().toLowerCase() )){
+
+                Ingredient existingIng = existingIngredient.standardizeMeasurement();
+                Ingredient ingToBeAdded = newIngredient.standardizeMeasurement();
+
+                if (existingIng.getMeasurement().equals(ingToBeAdded.getMeasurement())){
+                    existingIngredient.setQuantity(existingIng.getQuantity() + ingToBeAdded.getQuantity() );
+                    existingIngredient.convertMeasurement();
+                    return;
+                }
+            }
+        }
+        this.groceryList.add(newIngredient);
     }
 
 }

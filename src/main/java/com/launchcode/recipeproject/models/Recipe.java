@@ -179,6 +179,7 @@ public class Recipe extends AbstractEntity{
     public void removeFavoriteUser(User user) {
         this.favoriteUsers.remove(user);
     }
+
 //Other Methods---------------------------------------------------------------
 
     public void handleUserLike(UserLike userLike){
@@ -234,4 +235,9 @@ public class Recipe extends AbstractEntity{
     public String toString() {
         return name;
     }
+
+
+
+
+
 }
