@@ -9,6 +9,7 @@
 </header>
 <div class="mainBody">
     <h1 id="myMenuTitle" class="text-center display-6 p-3">My Menu</h1>
+    <a th:href="@{'/profile/groceryList/populate'}"><button type="button" class="btn btn-secondary btn-lg">Generate Grocery List</button></a>
     <div class="container">
         <div class="row">
             <div class="col-md-4" th:each="recipe : ${menuRecipes}">
@@ -27,6 +28,6 @@
     </div>
 </div>
 <br>
-<br>
+<br>d
 </body>
 </html>

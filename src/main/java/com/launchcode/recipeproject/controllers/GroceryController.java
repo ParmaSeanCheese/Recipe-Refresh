@@ -10,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/profile/groceryList")
@@ -44,16 +47,39 @@ public class GroceryController {
             user.setGroceryList(new ArrayList<Ingredient>());
         }
 
-        for (Recipe recipe : user.getMenuRecipes()) {
-            for (Ingredient ingredient : recipe.getIngredientList()) {
-                if (!user.getGroceryList().contains(ingredient)) {
-                    user.addToGroceryList(ingredient);
-                }
-            }
-        }
 
         List<Ingredient> groceryList = user.getGroceryList();
         model.addAttribute("groceryList", groceryList);
         return "/profile/groceryList";
+    }
+
+    @GetMapping("/populate")
+    public String populateGroceryList(Model model, Principal principal){
+
+        User user = controllerServices.getUser(principal);
+
+        if (user == null) {
+            model.addAttribute("title", "login");
+            return "/login";
+        }
+
+        if (user.getGroceryList() == null){
+            user.setGroceryList(new ArrayList<Ingredient>());
+        }
+
+        for (Recipe recipe : user.getMenuRecipes()) {
+            for (Ingredient ingredient : recipe.getIngredientList()) {
+             if (!user.getGroceryList().contains(ingredient)) {
+                  user.addToGroceryList(ingredient);
+               }
+           }
+        }
+
+       userRepository.save(user);
+
+        List<Ingredient> groceryList = user.getGroceryList();
+        model.addAttribute("groceryList", groceryList);
+        return "/profile/groceryList";
+
     }
 }

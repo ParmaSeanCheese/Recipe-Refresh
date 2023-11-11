@@ -9,10 +9,14 @@
 </header>
 <div class="mainBody">
     <h1 id="myGroceryTitle" class="text-center display-6 p-3">My Grocery List</h1>
+    <a th:href="@{'/profile/groceryList/populate'}"><button type="button" class="btn btn-secondary btn-lg">Generate Grocery List</button></a>
         <div class="container">
             <div class="row">
-                <div class="col-md-4" th:each="ingredient : ${groceryList}">
-
+                <div class="col-md-4">
+                    <div th:each="ingredient : ${groceryList}"class="form-check">
+                        <input class="form-check-input" type="checkbox" th:value="${ingredient.id}">
+                        <label class="form-check-label" th:text="${ingredient.name}"></label>
+                    </div>
                 </div>
             </div>
         </div>
